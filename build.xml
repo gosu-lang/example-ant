@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="test-simple" default="compile">
+  <description>Super simple test for Gosu compilation</description>
+
+  <target name="init">
+<!--    <property name="ivy.install.version" value="2.0.0-beta1"/>
+    <property name="ivy.jar.dir" value="${basedir}/ivy"/>
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/> -->
+     <!-- Define project CLASSPATH. -->
+    <property name="base.dir" value="."/>
+    <property name="pack.dir" value="${base.dir}/build/pack/"/>
+    <property name="build.dir" value="classes"/>
+<!--    <property name="libs.dir" value="${base.dir}/lib"/>	-->
+    <property name="src.dir" value="src"/>
+    <property name="jvmargs" value=""/>
+    <path id="gosu.classpath">
+      <fileset dir="${pack.dir}/lib/">
+        <include name="*.jar"/>
+      </fileset>
+    </path>
+
+    <!-- Define backing class of gosuc command -->
+    <taskdef resource="gosu/tools/ant/antlib.xml">
+      <classpath refid="gosu.classpath"/>
+    </taskdef>
+  </target>
+
+  <target name="compile" depends="init">
+    <mkdir dir="${build.dir}"/>
+
+    <gosuc srcdir="${src.dir}"
+           destdir="${build.dir}"
+           classpathref="gosu.classpath" 
+           fork="true" 
+           target="jvm-1.8"
+           deprecation="no" 
+           addparams="-no-specialization"
+           jvmargs="${jvmargs} -XX:+UseConcMarkSweepGC">
+      <include name="**/*.gs"/>
+    </gosuc>
+  </target>
+</project>
