@@ -3,6 +3,10 @@
     <dependencies>
         <dependency org="org.gosu-lang.gosu" name="gosu-core-api" rev="1-spec-SNAPSHOT"/>
         <dependency org="org.gosu-lang.gosu" name="gosu-core" rev="1-spec-SNAPSHOT"/>
+        
+        <!-- Ivy doesn't understand Maven POMs, so we have to list our transitive dependencies explicitly-->
+        <dependency org="org.gosu-lang.gosu.managed" name="gw-asm-util" rev="5.0.4"/>
+        <dependency org="org.gosu-lang.gosu.managed" name="gw-commons-cli" rev="1.2-1"/>
         <dependency org="org.codehaus.plexus" name="plexus-utils" rev="3.0.10"/>
     </dependencies>
 </ivy-module>
