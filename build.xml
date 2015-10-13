@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="test-simple" default="compile">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="test-simple" default="compile">
   <description>Super simple test for Gosu compilation</description>
+  
+  <property name="ivy.install.version" value="2.0.0"/>
+  <property name="ivy.jar.dir" value="${basedir}/ivy"/>
+  <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
+
+  <property name="build.dir" value="build"/>
+  <property name="src.dir" value="src"/>
+
+  <target name="download-ivy" unless="skip.download">
+    <mkdir dir="${ivy.jar.dir}"/>
+    <!-- download Ivy from web site so that it can be used even without any special installation -->
+    <echo message="installing ivy..."/>
+    <get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true"/>
+  </target>
+
+  <!-- ================================= 
+        target: install-ivy         
+          this target is not necessary if you put ivy.jar in your ant lib directory
+          if you already have ivy in your ant lib, you can simply remove this
+          target and the dependency the 'go' target has on it
+       ================================= -->
+  <target name="install-ivy" depends="download-ivy" description="--&gt; install ivy">
+    <!-- try to load ivy here from local ivy dir, in case the user has not already dropped
+          it into ant's lib dir (note that the latter copy will always take precedence).
+          We will not fail as long as the ivy jar is in at least one of ant's lib dir or 
+          the local lib dir. -->
+    <path id="ivy.lib.path">
+      <pathelement location="${ivy.jar.file}"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+  </target>
 
   <target name="init">
-<!--    <property name="ivy.install.version" value="2.0.0-beta1"/>
-    <property name="ivy.jar.dir" value="${basedir}/ivy"/>
-    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/> -->
-     <!-- Define project CLASSPATH. -->
-    <property name="base.dir" value="."/>
-    <property name="pack.dir" value="${base.dir}/build/pack/"/>
-    <property name="build.dir" value="classes"/>
-<!--    <property name="libs.dir" value="${base.dir}/lib"/>	-->
-    <property name="src.dir" value="src"/>
+    <echo>ivy.lib.path</echo>
     <property name="jvmargs" value=""/>
     <path id="gosu.classpath">
-      <fileset dir="${pack.dir}/lib/">
+      <fileset dir="lib">
         <include name="*.jar"/>
       </fileset>
     </path>
 
+    <ivy:retrieve/>
+    
     <!-- Define backing class of gosuc command -->
     <taskdef resource="gosu/tools/ant/antlib.xml">
       <classpath refid="gosu.classpath"/>
     </taskdef>
   </target>
 
-  <target name="compile" depends="init">
+  <target name="compile" depends="install-ivy, init">
     <mkdir dir="${build.dir}"/>
 
     <!--<gosuc/>-->

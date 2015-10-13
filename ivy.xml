@@ -1,0 +1,8 @@
+<ivy-module version="2.0">
+    <info organisation="org.gosu-lang.gosu" module="ant-gosuc"/>
+    <dependencies>
+        <dependency org="org.gosu-lang.gosu" name="gosu-core-api" rev="1-spec-SNAPSHOT"/>
+        <dependency org="org.gosu-lang.gosu" name="gosu-core" rev="1-spec-SNAPSHOT"/>
+        <dependency org="org.codehaus.plexus" name="plexus-utils" rev="3.0.10"/>
+    </dependencies>
+</ivy-module>
