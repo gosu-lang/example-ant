@@ -59,7 +59,8 @@
     <!--<gosuc/>-->
     <gosuc srcdir="${src.dir}"
            destdir="${build.dir}"
-           classpathref="gosu.classpath">
+           classpathref="gosu.classpath"
+           failonerror="false">
            <!--fork="true" -->
            <!--target="jvm-1.8"-->
            <!--deprecation="no" -->
