@@ -53,19 +53,21 @@
 
   <target name="compile" depends="install-ivy, init">
     <mkdir dir="${build.dir}"/>
-
+    <record name="build.log" loglevel="verbose" action="start"/>
     <gosuc srcdir="${src.dir}"
            destdir="${build.dir}"
            classpathref="gosu.classpath"
            failonerror="false">
+
            <!--fork="true" -->
            <!--target="jvm-1.8"-->
            <!--deprecation="no" -->
            <!--addparams="-no-specialization"-->
            <!--jvmargs="${jvmargs} -XX:+UseConcMarkSweepGC">-->
-      <include name="**/*.gs"/> 
-      <include name="**/*.gsx"/> 
-      <include name="**/*.gst"/> 
+      <!--<include name="**/*.gs"/> -->
+      <!--<include name="**/*.gsx"/> -->
+      <!--<include name="**/*.gst"/> -->
     </gosuc>
+    <record name="build.log" loglevel="verbose" action="stop"/>
   </target>
 </project>
