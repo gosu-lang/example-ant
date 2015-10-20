@@ -4,7 +4,7 @@ class Foo {
     var x = new ArrayList<int>()
     print("Hello World" + arg + " " + MeaningOfLife)
     print("Hello World again")
-    fail!
+    var i = arg.length() + 1 
   }
 
 }

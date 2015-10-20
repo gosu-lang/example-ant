@@ -7,8 +7,9 @@
   <property name="ivy.jar.dir" value="${basedir}/ivy"/>
   <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 
-  <property name="build.dir" value="build"/>
   <property name="src.dir" value="src"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="build.dir" value="build"/>
 
   <target name="download-ivy" unless="skip.download">
     <mkdir dir="${ivy.jar.dir}"/>
@@ -17,17 +18,7 @@
     <get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true"/>
   </target>
 
-  <!-- ================================= 
-        target: install-ivy         
-          this target is not necessary if you put ivy.jar in your ant lib directory
-          if you already have ivy in your ant lib, you can simply remove this
-          target and the dependency the 'go' target has on it
-       ================================= -->
   <target name="install-ivy" depends="download-ivy" description="--&gt; install ivy">
-    <!-- try to load ivy here from local ivy dir, in case the user has not already dropped
-          it into ant's lib dir (note that the latter copy will always take precedence).
-          We will not fail as long as the ivy jar is in at least one of ant's lib dir or 
-          the local lib dir. -->
     <path id="ivy.lib.path">
       <pathelement location="${ivy.jar.file}"/>
     </path>
@@ -38,36 +29,33 @@
     <echo>ivy.lib.path</echo>
     <property name="jvmargs" value=""/>
     <path id="gosu.classpath">
-      <fileset dir="lib">
+      <fileset dir="${lib.dir}">
         <include name="*.jar"/>
       </fileset>
     </path>
 
     <ivy:retrieve/>
-
+    
     <!-- Define backing class of gosuc command -->
     <taskdef resource="gosu/tools/ant/antlib.xml">
       <classpath refid="gosu.classpath"/>
     </taskdef>
   </target>
 
+  <target name="clean">
+    <delete dir="${ivy.jar.dir}"/>
+    <delete dir="${lib.dir}"/>
+    <delete dir="${build.dir}"/>
+  </target>
+  
   <target name="compile" depends="install-ivy, init">
     <mkdir dir="${build.dir}"/>
-    <record name="build.log" loglevel="verbose" action="start"/>
+
     <gosuc srcdir="${src.dir}"
            destdir="${build.dir}"
+           checkedarithmetic="true"
            classpathref="gosu.classpath"
-           failonerror="false">
-
-           <!--fork="true" -->
-           <!--target="jvm-1.8"-->
-           <!--deprecation="no" -->
-           <!--addparams="-no-specialization"-->
-           <!--jvmargs="${jvmargs} -XX:+UseConcMarkSweepGC">-->
-      <!--<include name="**/*.gs"/> -->
-      <!--<include name="**/*.gsx"/> -->
-      <!--<include name="**/*.gst"/> -->
-    </gosuc>
-    <record name="build.log" loglevel="verbose" action="stop"/>
+           failonerror="false"/>
   </target>
+
 </project>
