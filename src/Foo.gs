@@ -1,9 +1,8 @@
 class Foo {
 
-  function sayHi(arg : String) {
+  function sayHi(arg : String) : String {
     var x = new ArrayList<int>()
-    print("Hello World" + arg + " " + MeaningOfLife)
-    print("Hello World again")
+    return "Hello World" + arg + " " + MeaningOfLife
   }
 
 }

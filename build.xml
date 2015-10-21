@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="test-simple" default="compile">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="test-simple" default="test">
   <description>Super simple test for Gosu compilation</description>
   
   <property name="ivy.install.version" value="2.4.0"/>
@@ -10,6 +10,7 @@
   <property name="src.dir" value="src"/>
   <property name="lib.dir" value="lib"/>
   <property name="build.dir" value="build"/>
+  <property name="reports.dir" value="reports"/>
 
   <target name="download-ivy" unless="skip.download">
     <mkdir dir="${ivy.jar.dir}"/>
@@ -46,16 +47,43 @@
     <delete dir="${ivy.jar.dir}"/>
     <delete dir="${lib.dir}"/>
     <delete dir="${build.dir}"/>
+    <delete dir="${reports.dir}"/>
   </target>
   
   <target name="compile" depends="install-ivy, init">
+    <record name="build.log" loglevel="verbose" action="start"/>
     <mkdir dir="${build.dir}"/>
-
     <gosuc srcdir="${src.dir}"
            destdir="${build.dir}"
            checkedarithmetic="true"
            classpathref="gosu.classpath"
            failonerror="false"/>
+    <record name="build.log" loglevel="verbose" action="stop"/>
   </target>
 
+  <target name="test" depends="compile">
+    <record name="test.log" loglevel="verbose" action="start"/>
+    <mkdir dir="${reports.dir}"/>
+    
+    <junit printsummary="on"
+           fork="false"
+           failureproperty="tests.failed"
+           logfailedtests="true"
+           showoutput="true">
+      
+      <formatter type="xml"/>
+      
+      <classpath>
+        <path path="${build.dir}"/>
+        <path refid="gosu.classpath"/>
+      </classpath>
+
+      <test fork="true" name="FooTest" todir="${reports.dir}"/> <!-- TODO needs xml output -->
+
+    </junit>
+    <fail if="tests.failed"/>
+    <!--<junitreport todir="${reports.dir}"/>-->
+    <record name="build.log" loglevel="verbose" action="stop"/>
+  </target>
+  
 </project>

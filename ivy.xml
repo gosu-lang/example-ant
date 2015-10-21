@@ -4,6 +4,7 @@
         <dependency org="org.gosu-lang.gosu" name="gosu-core-api" rev="1-ant-SNAPSHOT"/>
         <dependency org="org.gosu-lang.gosu" name="gosu-core" rev="1-ant-SNAPSHOT"/>
         <dependency org="org.gosu-lang.gosu" name="gosu-ant-compiler" rev="1-ant-SNAPSHOT"/>
+        <dependency org="junit" name="junit" rev="4.11"/>
 
         <!-- Ivy doesn't understand Maven POMs, so we have to list our transitive dependencies explicitly-->
         <dependency org="org.gosu-lang.gosu.managed" name="gw-asm-util" rev="5.0.4"/>
