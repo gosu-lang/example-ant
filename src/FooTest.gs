@@ -8,7 +8,6 @@ class FooTest {
     var x = new Foo()
     Assert.assertNotNull(x)
     Assert.assertEquals("Hello World! 42", x.sayHi("!"))
-    Assert.fail("Intentional failure to break build")
   }
   
 }
