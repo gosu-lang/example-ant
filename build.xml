@@ -58,7 +58,7 @@
            checkedarithmetic="true"
            classpathref="gosu.classpath"
            failonerror="false"/>
-    <record name="build.log" loglevel="verbose" action="stop"/>
+    <record name="build.log" action="stop"/>
   </target>
 
   <target name="test" depends="compile">
@@ -83,7 +83,7 @@
     </junit>
     <fail if="tests.failed"/>
     <!--<junitreport todir="${reports.dir}"/>-->
-    <record name="build.log" loglevel="verbose" action="stop"/>
+    <record name="test.log" action="stop"/>
   </target>
   
 </project>
