@@ -1,9 +1,9 @@
 <ivy-module version="2.0">
     <info organisation="org.gosu-lang.gosu" module="ant-gosuc"/>
     <dependencies>
-        <dependency org="org.gosu-lang.gosu" name="gosu-core-api" rev="1.9.1"/>
-        <dependency org="org.gosu-lang.gosu" name="gosu-core" rev="1.9.1"/>
-        <dependency org="org.gosu-lang.gosu" name="gosu-ant-compiler" rev="1.9.1"/>
+        <dependency org="org.gosu-lang.gosu" name="gosu-core-api" rev="1.13.6"/>
+        <dependency org="org.gosu-lang.gosu" name="gosu-core" rev="1.13.6"/>
+        <dependency org="org.gosu-lang.gosu" name="gosu-ant-tools" rev="1.13.6"/>
         <dependency org="junit" name="junit" rev="4.11"/>
 
         <!-- Ivy doesn't understand Maven POMs, so we have to list our transitive dependencies explicitly-->
